@@ -9,7 +9,7 @@
 
   callPackage,
 
-  winePackage ? wineWowPackages.minimal,
+  winePackage ? wineWowPackages.waylandFull,
   buildInstallShield,
   ...
 }:

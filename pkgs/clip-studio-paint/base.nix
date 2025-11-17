@@ -8,7 +8,7 @@
   makeDesktopItem,
   wineWowPackages,
 
-  winePackage ? wineWowPackages.unstable,
+  winePackage ? wineWowPackages.waylandFull,
   buildWineApplication,
   windowsVersion ? "win81",
   ...

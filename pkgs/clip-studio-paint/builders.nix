@@ -7,6 +7,7 @@
   copyDesktopItems,
   wineWowPackages,
   winetricks,
+  fetchurl,
   ...
 }:
 rec {
@@ -82,14 +83,14 @@ rec {
 
       desktopItems ? [ ],
 
-      winePackage ? wineWowPackages.staging,
+      winePackage ? wineWowPackages.waylandFull,
       winetricksPackage ? winetricks,
 
       withCjk ? false,
       extraTricks ? [ ],
 
       use32Bit ? false,
-      windowsVersion ? "win10",
+      windowsVersion ? "win7",
       wineprefix ? "$HOME/.nix-wine/${pname}-${version}",
 
       meta,
@@ -98,6 +99,11 @@ rec {
     let
       mkRunner =
         let
+          # https://github.com/Winetricks/winetricks/issues/2226
+          edgeInstallerExecutable = fetchurl {
+            url = "https://web.archive.org/web/20241127085924/https://msedge.sf.dl.delivery.mp.microsoft.com/filestreamingservice/files/c234a7e5-8ebb-49dc-b21c-880622eb365b/MicrosoftEdgeWebView2RuntimeInstallerX86.exe";
+            hash = "sha256-fMCXmuXRQ4f789HS0krNtmGOcSZR2mqojOjlOPjKE3Q=";
+          };
           buildScript =
             let
               tricks = [ ] ++ lib.optional withCjk "cjkfonts" ++ extraTricks;
@@ -106,6 +112,10 @@ rec {
             ''
               mkdir -p "$WINEPREFIX"
               wineboot -u
+
+              winecfg /v win10
+              wine "${edgeInstallerExecutable}"
+
               winecfg /v ${windowsVersion}
             ''
             + lib.optionalString (tricks != [ ]) ''

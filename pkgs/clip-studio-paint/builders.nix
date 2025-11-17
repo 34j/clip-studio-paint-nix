@@ -114,7 +114,7 @@ rec {
               wineboot -u
 
               winecfg /v win10
-              wine "${edgeInstallerExecutable}"
+              wine "${edgeInstallerExecutable}" || true
 
               winecfg /v ${windowsVersion}
             ''

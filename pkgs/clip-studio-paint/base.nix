@@ -10,7 +10,7 @@
 
   winePackage ? wineWowPackages.waylandFull,
   buildWineApplication,
-  windowsVersion ? "win81",
+  windowsVersion ? "win7",
   ...
 }:
 buildWineApplication rec {

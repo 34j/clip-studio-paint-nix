@@ -115,6 +115,7 @@ rec {
 
               winecfg /v win10
               wine "${edgeInstallerExecutable}" || true
+              wineserver -k
 
               winecfg /v ${windowsVersion}
             ''
